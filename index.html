@@ -3,62 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GitHub activity</title>
-<meta name="description" content="A year of GitHub contributions, drawn six ways.">
+<title>Yasin Latif · GitHub Activity</title>
+<meta name="description" content="Yasin Latif's GitHub contribution calendar, drawn six ways, with links to his equity research and valuation projects.">
 <meta name="theme-color" content="#060912">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#060912;--panel:#0b1120;--raise:#16203a;--line:#1a2440;--text:#e8ecf8;--mute:#8592b3;--blue:#2d6cff;--cyan:#35c4ff;--amber:#ffb547}
+:root{--ink:#060912;--panel:#0b1120;--raise:#16203a;--line:#1a2440;--text:#e8ecf8;--mute:#8592b3;--cyan:#35c4ff;--amber:#ffb547}
 *{box-sizing:border-box}
 html{color-scheme:dark}
 body{margin:0;background:var(--ink);color:var(--text);font:16px/1.5 Geist,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin:0 auto;padding:40px 20px 64px}
-header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap;margin-bottom:28px}
-h1{font-size:clamp(28px,4.4vw,44px);line-height:1.05;letter-spacing:-.035em;font-weight:650;margin:0}
-.sub{color:var(--mute);font-size:14px;margin:0}
-.demo{display:none;margin:0 0 16px;padding:8px 12px;border:1px solid #6b4a12;background:#1d1608;color:var(--amber);border-radius:10px;font-size:13px}
-.demo.on{display:block}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-[role=tablist]{display:flex;gap:2px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow-x:auto;max-width:100%;scrollbar-width:none}
-[role=tablist]::-webkit-scrollbar{display:none}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 20px 56px}
+h1{font-size:clamp(26px,4.2vw,40px);line-height:1.1;letter-spacing:-.03em;font-weight:650;margin:0 0 10px}
+.links{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;margin:0 0 18px;font-size:15px}
+.links span{color:var(--mute)}
+a{color:var(--cyan);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,canvas:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.meta{margin:0 0 20px;font-size:14px;color:var(--mute)}
+.meta p{margin:0}
+.meta .warn{color:var(--amber)}
+.bar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+[role=tablist]{display:flex;flex-wrap:wrap;gap:2px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
 [role=tab]{appearance:none;background:none;border:0;color:var(--mute);font:500 14px Geist,system-ui,sans-serif;padding:8px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:color .15s,background .15s}
 [role=tab]:hover{color:var(--text)}
 [role=tab][aria-selected=true]{background:var(--raise);color:var(--text)}
-.replay{appearance:none;background:none;border:1px solid var(--line);color:var(--text);font:500 14px Geist,system-ui,sans-serif;padding:8px 14px;border-radius:10px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;flex:none}
+.replay{appearance:none;background:none;border:1px solid var(--line);color:var(--text);font:500 14px Geist,system-ui,sans-serif;padding:9px 14px;border-radius:10px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;flex:none}
 .replay:hover{border-color:var(--cyan)}
 .replay svg{width:14px;height:14px}
-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .stage{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-canvas{display:block;width:100%}
+canvas{display:block;width:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .tip{position:absolute;pointer-events:none;background:#02050c;border:1px solid var(--line);color:var(--text);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-135%);transition:opacity .12s}
-.cap{color:var(--mute);font-size:14px;margin:14px 2px 0;max-width:62ch}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);margin:32px 0 0;border-top:1px solid var(--line)}
-.stat{padding:18px 16px 0 0}
-.stat b{display:block;font-size:clamp(22px,3vw,32px);line-height:1.15;font-weight:650;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
-.stat span{color:var(--mute);font-size:13px}
-footer{margin-top:44px;color:var(--mute);font-size:13px}
-footer a{color:var(--cyan);text-underline-offset:3px}
-@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}.stat{padding-bottom:6px}.replay span{display:none}}
+.detail{margin:12px 2px 0;min-height:1.5em;font-size:14px;color:var(--text)}
+.cap{color:var(--mute);font-size:14px;margin:4px 2px 0;max-width:62ch}
+.note{margin:28px 0 0;padding-top:16px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;max-width:70ch}
+.note b{color:var(--text);font-weight:600}
+footer{margin-top:20px;color:var(--mute);font-size:13px}
+.demo{margin:0 0 16px;padding:8px 12px;border:1px solid #6b4a12;background:#1d1608;color:var(--amber);border-radius:10px;font-size:13px}
+[hidden]{display:none!important}
+@media(max-width:600px){
+  .wrap{padding:24px 16px 40px}
+  .bar{flex-direction:column;align-items:stretch}
+  [role=tablist]{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+  [role=tab]{padding:10px 6px;text-align:center}
+  .replay{justify-content:center}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1 id="who">GitHub activity</h1>
-    <p class="sub" id="meta"></p>
-  </header>
-  <p class="demo" id="demo">Showing generated demo data. Run scripts/fetch-github.mjs to load the real calendar.</p>
+  <h1>Yasin Latif · GitHub Activity</h1>
+  <nav class="links" aria-label="Profile and featured research">
+    <a href="https://github.com/yasinlatif22-cpu">GitHub profile</a>
+    <span>Featured research:</span>
+    <a href="https://github.com/yasinlatif22-cpu/payments-earnings-event-study">Payments Earnings Event Study</a>
+    <a href="https://github.com/yasinlatif22-cpu/equity-screener">Equity Screener</a>
+    <a href="https://github.com/yasinlatif22-cpu/financial-models">Financial Models</a>
+  </nav>
+  <div class="meta" id="meta"></div>
+  <p class="demo" id="demo" hidden>Showing generated demo data, not real activity. Run scripts/fetch-github.mjs to load the real calendar.</p>
   <div class="bar">
     <div role="tablist" aria-label="Views" id="tabs"></div>
-    <button class="replay" id="replay" type="button" aria-label="Replay animation"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.8-4.07"/><path d="M2.5 2.5v3h3"/></svg><span>Replay</span></button>
+    <button class="replay" id="replay" type="button" aria-label="Replay animation"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.8-4.07"/><path d="M2.5 2.5v3h3"/></svg>Replay</button>
   </div>
-  <div class="stage" id="stage"><canvas id="cv" role="img" aria-label="Animated GitHub contribution graph"></canvas><div class="tip" id="tip"></div></div>
-  <p class="cap" id="cap" aria-live="polite"></p>
-  <div class="stats" id="stats"></div>
-  <footer>Data comes from GitHub's contribution calendar and refreshes daily. <a href="https://github.com/yasinlatif22-cpu/contrib-gragh">Source on GitHub</a></footer>
+  <div class="stage" id="stage"><canvas id="cv" tabindex="0" role="img" aria-label="Animated GitHub contribution graph"></canvas><div class="tip" id="tip"></div></div>
+  <p class="detail" id="detail" aria-live="polite"></p>
+  <p class="cap" id="cap"></p>
+  <p class="note" id="note"></p>
+  <footer>A scheduled job rebuilds this page's data from GitHub's contribution calendar; the date above is the last time that succeeded. <a href="https://github.com/yasinlatif22-cpu/contrib-gragh">Source on GitHub</a></footer>
 </div>
 
 <script src="data/github.js"></script>
@@ -84,20 +97,18 @@ function demo(){
 const D=(typeof window!=='undefined'&&window.GITHUB_DATA)||demo();
 const counts=D.counts, n=counts.length, levels=D.levels.split('').map(Number);
 const weeks=Math.ceil(n/7), total=D.total, sum=counts.reduce((a,b)=>a+b,0)||1;
-const maxC=Math.max(1,...counts), best=counts.indexOf(maxC);
+const maxC=Math.max(1,...counts);
 const col=i=>Math.floor(i/7), row=i=>i%7;
 const wk=[]; for(let w=0;w<weeks;w++){let t=0;for(let r=0;r<7;r++)t+=counts[w*7+r]||0;wk.push(t);}
 const maxW=Math.max(1,...wk);
 let e=n-1; if(counts[e]===0)e--; let s=e; while(s>=0&&counts[s]>0)s--;
 const streakStart=s+1, streakLen=Math.max(0,e-s), lastOff=s>=0?s:-1;
-let longest=0,run=0; counts.forEach(c=>{run=c>0?run+1:0;if(run>longest)longest=run;});
-const active=counts.filter(c=>c>0).length;
 const dateOf=i=>{const [y,m,d]=D.start.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+i));};
 const fmt=i=>dateOf(i).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'});
-const fmtShort=i=>dateOf(i).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
+const detailText=i=>fmt(i)+': '+counts[i]+' contribution'+(counts[i]===1?'':'s');
 
 /* ---------- helpers ---------- */
-const T={ramp:['#17223d','#1e3f9b','#2d6cff','#35c4ff','#d4f7ff'],slot:'#101830',bright:'#aef0ff',mute:'#8592b3',text:'#e8ecf8',amber:'#ffb547',red:'#ff5c6c',
+const T={ramp:['#17223d','#1e3f9b','#2d6cff','#35c4ff','#d4f7ff'],slot:'#101830',bright:'#aef0ff',mute:'#8592b3',text:'#e8ecf8',red:'#ff5c6c',
   term:['#2a3556','#3b64d8','#35a0ff','#5ad0ff','#d4f7ff']};
 const RAMP=T.ramp;
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
@@ -109,11 +120,13 @@ const mix=(a,b,p)=>{const A=hex(a),B=hex(b);return 'rgb('+A.map((v,i)=>Math.roun
 const shade=(h,amt)=>amt>=0?mix(h,'#ffffff',amt):mix(h,'#000000',-amt);
 function rr(ctx,x,y,sz,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,sz,sz,r);else ctx.rect(x,y,sz,sz);ctx.fill();}
 const padOf=w=>Math.min(28,Math.max(16,w*0.035));
-function gl(w,h,top){const pad=padOf(w),avW=w-pad*2,avH=h-top-pad;const step=Math.min(avW/weeks,avH/7);return {x0:(w-step*weeks)/2,y0:top+(avH-step*7)/2,step,size:step*0.82,pad};}
-const cellXY=(L,i)=>[L.x0+col(i)*L.step,L.y0+row(i)*L.step];
 const FONT='Geist,system-ui,-apple-system,"Segoe UI",sans-serif';
 const MONO='"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
-const stageH=w=>w<560?Math.round(w*1.05+30):Math.round(clamp(w*0.46,360,520));
+const headFont=w=>w<480?28:36;
+const gridTop=w=>padOf(w)+headFont(w)+22;
+function gl(w,h){const pad=padOf(w),top=gridTop(w),avW=w-pad*2,avH=h-top-pad;const step=Math.min(avW/weeks,avH/7);return {x0:(w-step*weeks)/2,y0:top+(avH-step*7)/2,step,size:step*0.82,pad,top};}
+const gridH=w=>{const pad=padOf(w),step=(w-pad*2)/weeks;return Math.round(gridTop(w)+step*7+pad);};
+const cellXY=(L,i)=>[L.x0+col(i)*L.step,L.y0+row(i)*L.step];
 function months(ctx,L,a){
   ctx.save(); ctx.globalAlpha=a; ctx.fillStyle=T.mute; ctx.font='500 11px '+FONT; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   let pm=-1,last=-10;
@@ -125,14 +138,23 @@ function months(ctx,L,a){
   }
   ctx.restore();
 }
+/* hit-testing: each draw records, per day, a centre and half-size for the days visible in that frame */
+function begin(st){st.pts=new Array(n);st.order=[];st.hit=null;st.pos=i=>st.pts[i]||null;}
+function rec(st,i,cx,cy,hw,hh){st.pts[i]=[cx,cy,hw,hh];st.order.push(i);}
+function hitTest(st,x,y){
+  if(st.hit)return st.hit(x,y);
+  for(let k=st.order.length-1;k>=0;k--){const i=st.order[k],p=st.pts[i];if(Math.abs(x-p[0])<=p[2]&&Math.abs(y-p[1])<=p[3])return i;}
+  return -1;
+}
 
 /* ---------- views: draw(ctx,w,h,t,st), t = ms since start (Infinity = finished frame) ---------- */
 const views=[];
 
-views.push({id:'grid',name:'Grid',hover:true,
-  cap:'Each square is a day, darker to brighter by how much you shipped. Hover a square for its date and count.',dur:2600,
+views.push({id:'grid',name:'Grid',h:gridH,
+  cap:'Each square is a day, brighter for more contributions.',dur:2600,
   draw(ctx,w,h,t,st){
-    const pad=padOf(w), L=gl(w,h,pad+66); st.L=L; let landed=0;
+    begin(st);
+    const pad=padOf(w), L=gl(w,h); let landed=0;
     months(ctx,L,t===Infinity?1:clamp((t-400)/500));
     for(let i=0;i<n;i++){
       const [x,y]=cellXY(L,i);
@@ -142,20 +164,21 @@ views.push({id:'grid',name:'Grid',hover:true,
       const sz=L.size*(0.2+0.8*Math.max(0,easeBack(p))), off=(L.size-sz)/2;
       ctx.fillStyle=p<1?mix(T.bright,RAMP[levels[i]],p):RAMP[levels[i]];
       rr(ctx,x+off,y+off,sz,Math.min(3,sz/4));
+      rec(st,i,x+L.size/2,y+L.size/2,L.step/2,L.step/2);
     }
-    const shown=t===Infinity?total:Math.round(landed*total/sum), txt=shown.toLocaleString();
-    ctx.fillStyle=T.text; ctx.font='650 40px '+FONT; ctx.fillText(txt,pad,pad+36);
+    const shown=t===Infinity?total:Math.round(landed*total/sum), txt=shown.toLocaleString(), hf=headFont(w);
+    ctx.fillStyle=T.text; ctx.font='650 '+hf+'px '+FONT; ctx.fillText(txt,pad,pad+hf*0.9);
     const nw=ctx.measureText(txt).width;
-    ctx.fillStyle=T.mute; ctx.font='400 15px '+FONT; ctx.fillText('contributions in the last year',pad+nw+12,pad+36);
+    ctx.fillStyle=T.mute; ctx.font='400 '+(w<480?13:15)+'px '+FONT; ctx.fillText('contributions',pad+nw+10,pad+hf*0.9);
   }});
 
-views.push({id:'skyline',name:'Skyline',
-  cap:'Every day becomes a building. Height follows the square root of the count so one huge day does not flatten the rest.',dur:2700,
+views.push({id:'skyline',name:'Skyline',h:w=>Math.round(clamp(w*0.36,230,380)),
+  cap:'Every day becomes a building. Height follows the square root of the count so one large day does not flatten the rest.',dur:2700,
   draw(ctx,w,h,t,st){
+    begin(st);
     const pad=padOf(w), kx=0.35, ky=0.5, dxk=0.3;
     const s=(w-pad*2)/(weeks+6*kx+dxk+0.2), ox=s*kx, oy=s*ky, bw=s*0.8, dx=s*dxk, dy=s*dxk;
-    const y0=h-pad-6*oy-8, maxH=Math.max(30,Math.min(h*0.58,y0-pad-50)), x0=pad;
-    let bestTop=null;
+    const y0=h-pad-6*oy-8, maxH=Math.max(30,Math.min(h*0.62,y0-pad-24)), x0=pad;
     for(let r=0;r<7;r++)for(let c=0;c<weeks;c++){
       const i=c*7+r; if(i>=n)continue;
       const bx=x0+c*s+(6-r)*ox, by=y0+r*oy;
@@ -166,24 +189,17 @@ views.push({id:'skyline',name:'Skyline',
       ctx.fillStyle=base; ctx.fillRect(bx,by-hh,bw,hh);
       ctx.fillStyle=shade(base,0.3); ctx.beginPath();ctx.moveTo(bx,by-hh);ctx.lineTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+dx,by-hh-dy);ctx.closePath();ctx.fill();
       ctx.fillStyle=shade(base,-0.42); ctx.beginPath();ctx.moveTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+bw+dx,by-dy);ctx.lineTo(bx+bw,by);ctx.closePath();ctx.fill();
-      if(i===best)bestTop=[bx+bw/2+dx/2,by-hh-dy];
-    }
-    const q=clamp((t-1800)/500);
-    if(bestTop&&q>0){
-      const ty=pad+18, label='Best day: '+maxC+' on '+fmt(best);
-      ctx.globalAlpha=q; ctx.strokeStyle=T.amber; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-      ctx.beginPath(); ctx.moveTo(bestTop[0],bestTop[1]-5); ctx.lineTo(bestTop[0],lerp(bestTop[1]-5,ty+8,q)); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle=T.amber; ctx.font='600 14px '+FONT;
-      const tw=ctx.measureText(label).width, lx=clamp(bestTop[0]-tw/2,pad,w-pad-tw);
-      ctx.fillText(label,lx,ty); ctx.globalAlpha=1;
+      const pw=Math.max(bw+dx,10)/2, ph=Math.max(hh+dy,10)/2;
+      rec(st,i,bx+(bw+dx)/2,by-(hh+dy)/2,pw,ph);
     }
   }});
 
-views.push({id:'weekly',name:'Weekly',
+views.push({id:'weekly',name:'Weekly',h:w=>Math.round(clamp(w*0.42,250,400)),
   cap:'Weekly totals draw as a line, then each week pours down into its seven days.',dur:3100,
   draw(ctx,w,h,t,st){
-    const Lg=gl(w,h,h*0.5); Lg.y0=h-Lg.pad-7*Lg.step;
-    const lineTop=Lg.pad+34, lineBot=Math.max(lineTop+40,Lg.y0-22);
+    begin(st);
+    const Lg=gl(w,h); Lg.y0=h-Lg.pad-7*Lg.step;
+    const lineTop=Lg.pad+30, lineBot=Math.max(lineTop+40,Lg.y0-22);
     const px=k=>Lg.x0+k*Lg.step+Lg.size/2, py=k=>lineBot-(wk[k]/maxW)*(lineBot-lineTop);
     const TL=1600, p=clamp(t/TL), f=p*(weeks-1), fi=Math.min(Math.floor(f),weeks-1);
     const alpha=t<=TL?1:Math.max(0.3,1-(t-TL)/900);
@@ -199,14 +215,16 @@ views.push({id:'weekly',name:'Weekly',
       const st0=TL*(k/(weeks-1))+r*40, q=clamp((t-st0)/650); if(q<=0)continue;
       const e2=easeOut(q), yy=lerp(py(k)-Lg.size/2,cy,e2), xx=lerp(px(k)-Lg.size/2,cx,e2);
       ctx.globalAlpha=Math.min(1,q*2); ctx.fillStyle=RAMP[levels[i]]; rr(ctx,xx,yy,Lg.size,Math.min(3,Lg.size/4)); ctx.globalAlpha=1;
+      if(q>=1)rec(st,i,cx+Lg.size/2,cy+Lg.size/2,Lg.step/2,Lg.step/2);
     }
     ctx.fillStyle=T.mute; ctx.font='400 14px '+FONT;
-    ctx.fillText('Busiest week: '+maxW+' contributions',Lg.pad,Lg.pad+14);
+    ctx.fillText('Weekly totals',Lg.pad,Lg.pad+14);
   }});
 
-views.push({id:'ring',name:'Ring',
+views.push({id:'ring',name:'Ring',h:w=>Math.round(Math.min(w,460)),
   cap:'The calendar bent into a ring: seven rings for the days of the week, one spoke per week, revealed by a sweeping hand.',dur:3700,
   draw(ctx,w,h,t,st){
+    begin(st);
     const cx=w/2, cy=h/2, R=Math.min(w,h)/2-16, r0=R*0.3, rs=(R-r0)/7, da=Math.PI*2/weeks, a0=-Math.PI/2;
     const prog=clamp(t/3200), hand=a0+Math.PI*2*prog;
     for(let i=0;i<n;i++){
@@ -225,14 +243,21 @@ views.push({id:'ring',name:'Ring',
     ctx.textAlign='center'; ctx.fillStyle=T.text; ctx.font='650 '+Math.round(r0*0.52)+'px '+FONT;
     ctx.fillText(shown.toLocaleString(),cx,cy+r0*0.14);
     ctx.fillStyle=T.mute; ctx.font='400 13px '+FONT; ctx.fillText('contributions',cx,cy+r0*0.14+20);
+    st.hit=(x,y)=>{
+      const dx=x-cx, dy=y-cy, rad=Math.hypot(dx,dy); if(rad<r0||rad>R)return -1;
+      let a=Math.atan2(dy,dx)-a0; a=((a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+      const i=Math.floor(a/da)*7+Math.floor((rad-r0)/rs); return i>=0&&i<n?i:-1;
+    };
+    st.pos=i=>{const k=col(i),r=row(i),am=a0+(k+0.5)*da,rm=r0+(r+0.5)*rs;return [cx+Math.cos(am)*rm,cy+Math.sin(am)*rm,rs/2,rs/2];};
   }});
 
 const streakDur=(()=>{const pd=streakLen?Math.min(34,3600/streakLen):0;return 700+streakLen*pd+700;})();
-views.push({id:'streak',name:'Streak',hover:true,
-  cap:streakLen?'Everything dims and a light runs through your current streak, one day at a time. A red cross marks the last day off.':'No active streak right now. Commit today and this view lights up.',
+views.push({id:'streak',name:'Streak',h:gridH,
+  cap:streakLen?'Everything dims and a light runs through the most recent run of consecutive active days. A red cross marks the day before it.':'There is no active run of consecutive days right now.',
   dur:streakDur,
   draw(ctx,w,h,t,st){
-    const pad=padOf(w), L=gl(w,h,pad+66); st.L=L; const pd=streakLen?Math.min(34,3600/streakLen):0;
+    begin(st);
+    const pad=padOf(w), L=gl(w,h), pd=streakLen?Math.min(34,3600/streakLen):0;
     const kf=streakLen?clamp((t-700)/pd,0,streakLen-1):0, kc=t===Infinity?streakLen-1:kf;
     const dim=t===Infinity?0.22:1-0.78*clamp(t/500);
     months(ctx,L,dim);
@@ -240,13 +265,14 @@ views.push({id:'streak',name:'Streak',hover:true,
       const [x,y]=cellXY(L,i), k=i-streakStart, inS=k>=0&&k<streakLen;
       const lit=inS&&(t===Infinity||t>=700+k*pd);
       ctx.globalAlpha=inS?(lit?1:dim):dim; ctx.fillStyle=levels[i]===0&&!inS?T.slot:RAMP[levels[i]]; rr(ctx,x,y,L.size,Math.min(3,L.size/4));
+      rec(st,i,x+L.size/2,y+L.size/2,L.step/2,L.step/2);
     }
     ctx.globalAlpha=1;
     if(streakLen>0&&t!==Infinity&&t<700+streakLen*pd+200){
       const f0=Math.floor(kc);
       for(let j=8;j>=0;j--){
         const k=f0-j; if(k<0)continue; const [x,y]=cellXY(L,streakStart+k);
-        ctx.globalAlpha=(1-j/9)*0.75; ctx.fillStyle=T.amber; ctx.shadowColor=T.amber; ctx.shadowBlur=12;
+        ctx.globalAlpha=(1-j/9)*0.75; ctx.fillStyle=T.bright; ctx.shadowColor=T.ramp[3]; ctx.shadowBlur=12;
         ctx.beginPath(); ctx.arc(x+L.size/2,y+L.size/2,L.size*0.48*(1-j/12),0,7); ctx.fill();
       }
       ctx.shadowBlur=0; ctx.globalAlpha=1;
@@ -256,26 +282,26 @@ views.push({id:'streak',name:'Streak',hover:true,
       ctx.strokeStyle=T.red; ctx.lineWidth=Math.max(1.5,L.size*0.14); ctx.lineCap='round';
       ctx.beginPath(); ctx.moveTo(x+m,y+m); ctx.lineTo(x+L.size-m,y+L.size-m); ctx.moveTo(x+L.size-m,y+m); ctx.lineTo(x+m,y+L.size-m); ctx.stroke();
     }
-    ctx.fillStyle=streakLen?T.amber:T.text; ctx.font='650 40px '+FONT;
-    const label=streakLen?('Day '+Math.min(streakLen,Math.floor(kc)+1)):'No active streak';
-    ctx.fillText(label,pad,pad+36);
-    if(streakLen){const lw=ctx.measureText(label).width; ctx.fillStyle=T.mute; ctx.font='400 15px '+FONT; ctx.fillText('of '+streakLen+', your current streak',pad+lw+12,pad+36);}
+    const label=streakLen?('Most recent run: '+Math.min(streakLen,Math.floor(kc)+1)+' of '+streakLen+' days'):'No active run';
+    ctx.fillStyle=T.mute; ctx.font='500 '+(w<480?14:16)+'px '+FONT; ctx.fillText(label,pad,pad+headFont(w)*0.8);
   }});
 
 const GLY=['.',':','+','#','@'];
 const termCmd='$ gh contrib '+D.user+' --year';
-const termDur=(()=>{const cmdEnd=termCmd.length*38;return cmdEnd+250+weeks*28+7*12+380+200+90*22+400;})();
+const termDur=(()=>{const cmdEnd=termCmd.length*38;return cmdEnd+250+weeks*28+7*12+380+200+60*22+400;})();
+const termMetrics=w=>{const pad=padOf(w),cw=(w-2*pad)/weeks,fs=clamp(cw*1.5,8,17);return {pad,cw,fs,rh:fs*1.3};};
 views.push({id:'terminal',name:'Terminal',
-  cap:'The command types itself, then every day scrambles and settles into . : + # @ by how much you shipped.',dur:termDur,
+  h:w=>{const m=termMetrics(w);return Math.round(m.pad*2+m.fs*2.8+7*m.rh+m.fs*2.8);},
+  cap:'The command types itself, then every day scrambles and settles into . : + # @ by how many contributions it has.',dur:termDur,
   draw(ctx,w,h,t,st){
+    begin(st);
     ctx.fillStyle='#03050b'; ctx.fillRect(0,0,w,h);
-    const pad=padOf(w), cw=(w-2*pad)/weeks, fs=clamp(cw*1.5,8,17), rh=fs*1.3;
-    const blockH=fs*2.8+7*rh+fs*3.4, oy=Math.max(pad,(h-blockH)/2);
+    const {pad,cw,fs,rh}=termMetrics(w), oy=pad;
     ctx.font=fs+'px '+MONO;
     const cmdEnd=termCmd.length*38, nCmd=Math.min(termCmd.length,Math.floor(t/38));
     ctx.fillStyle=T.term[3]; ctx.fillText(termCmd.slice(0,nCmd),pad,oy+fs);
     const gy=oy+fs*2.8;
-    const sumTxt='> '+total.toLocaleString()+' contributions, '+streakLen+'-day streak, best day '+maxC;
+    const sumTxt='> '+total.toLocaleString()+' contributions, '+fmt(0)+' to '+fmt(n-1);
     const sumStart=cmdEnd+250+weeks*28+7*12+380+200;
     ctx.textAlign='center';
     for(let i=0;i<n;i++){
@@ -284,41 +310,56 @@ views.push({id:'terminal',name:'Terminal',
       if(fin)g=GLY[levels[i]]; else g=GLY[(Math.imul(i,2654435761)+Math.floor(t/70)*40503>>>0)%5];
       ctx.fillStyle=fin?T.term[levels[i]]:T.mute;
       ctx.fillText(g,pad+col(i)*cw+cw/2,gy+row(i)*rh+fs);
+      rec(st,i,pad+col(i)*cw+cw/2,gy+row(i)*rh+fs*0.55,cw/2,rh/2);
     }
     ctx.textAlign='left'; const nSum=t<sumStart?0:Math.min(sumTxt.length,Math.floor((t-sumStart)/22));
-    ctx.fillStyle=T.text; ctx.fillText(sumTxt.slice(0,nSum),pad,gy+7*rh+fs*1.8);
-    if(t!==Infinity&&Math.floor(t/450)%2===0){const tw=ctx.measureText(sumTxt.slice(0,nSum)).width;ctx.fillStyle=T.text;ctx.fillRect(pad+tw+3,gy+7*rh+fs*0.8,fs*0.55,fs*1.1);}
+    ctx.fillStyle=T.text; ctx.fillText(sumTxt.slice(0,nSum),pad,gy+7*rh+fs*1.6);
+    if(t!==Infinity&&Math.floor(t/450)%2===0){const tw=ctx.measureText(sumTxt.slice(0,nSum)).width;ctx.fillStyle=T.text;ctx.fillRect(pad+tw+3,gy+7*rh+fs*0.6,fs*0.55,fs*1.1);}
   }});
 
-if(typeof window!=='undefined'){window.__anims=views;window.__stageH=stageH;}
+if(typeof window!=='undefined'){window.__views=views;}
 if(typeof document==='undefined')return;
 
 /* ---------- page ---------- */
 const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=id=>document.getElementById(id);
-$('who').textContent='@'+D.user;
-$('meta').textContent=D.updated?('Last 12 months. Updated '+new Date(D.updated+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'.'):'Last 12 months of GitHub contributions.';
-if(D.demo)$('demo').classList.add('on');
-document.title='@'+D.user+' on GitHub';
-const statData=[[total.toLocaleString(),'Contributions'],[streakLen+(streakLen===1?' day':' days'),'Current streak'],[longest+(longest===1?' day':' days'),'Longest streak'],[String(maxC),'Best day, '+fmtShort(best)],[Math.round(active/n*100)+'%','Days with activity']];
-$('stats').innerHTML=statData.map(s=>'<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>').join('');
+const dayMs=864e5;
+const upd=D.updated&&/^\d{4}-\d{2}-\d{2}/.test(D.updated)?new Date(D.updated.slice(0,10)+'T00:00:00'):null;
+const age=upd?Math.floor((Date.now()-upd.getTime())/dayMs):null;
+const metaEl=$('meta');
+function line(text,cls){const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;metaEl.appendChild(p);}
+line('Contributions from '+fmt(0)+' to '+fmt(n-1)+'.');
+if(D.demo)line('Demo data. This is not real activity.','warn');
+else if(!upd)line('Last successful data refresh: not recorded.','warn');
+else{
+  line('Last successful data refresh: '+upd.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'.');
+  if(age>2)line('The scheduled refresh has not succeeded since then, so recent activity may be missing.','warn');
+}
+if(D.demo)$('demo').hidden=false;
+$('note').innerHTML='<b>'+total.toLocaleString()+' contributions</b> in this period. Contribution counts measure activity, not research quality. The research is in the repositories linked above.';
 
-const cv=$('cv'), stage=$('stage'), tip=$('tip'), tabs=$('tabs'), ctx=cv.getContext('2d');
-let cur=0, st={}, w=0, h=0, elapsed=0, last=0, running=false, done=false, started=false, raf=0;
+const cv=$('cv'), stage=$('stage'), tip=$('tip'), tabs=$('tabs'), detail=$('detail'), ctx=cv.getContext('2d');
+let cur=0, st={}, w=0, h=0, elapsed=0, last=0, running=false, done=false, started=false, raf=0, sel=-1, pinned=false;
+const hint='Tap or hover a day for its date and count.';
 const tabEls=views.map((v,i)=>{
   const b=document.createElement('button'); b.type='button'; b.setAttribute('role','tab'); b.id='tab-'+v.id; b.textContent=v.name;
-  b.addEventListener('click',()=>select(i)); tabs.appendChild(b); return b;
+  b.addEventListener('click',()=>choose(i)); tabs.appendChild(b); return b;
 });
 tabs.addEventListener('keydown',ev=>{
   if(ev.key!=='ArrowRight'&&ev.key!=='ArrowLeft')return;
-  const i=(cur+(ev.key==='ArrowRight'?1:views.length-1))%views.length; select(i); tabEls[i].focus(); ev.preventDefault();
+  const i=(cur+(ev.key==='ArrowRight'?1:views.length-1))%views.length; choose(i); tabEls[i].focus(); ev.preventDefault();
 });
 function render(t){
   ctx.clearRect(0,0,w,h); ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.textAlign='left'; ctx.textBaseline='alphabetic'; ctx.lineCap='butt'; ctx.setLineDash([]);
   views[cur].draw(ctx,w,h,t,st);
+  if(sel>=0&&st.pos){
+    const p=st.pos(sel);
+    if(p){ctx.strokeStyle=T.text;ctx.lineWidth=1.5;ctx.strokeRect(p[0]-p[2]+1,p[1]-p[3]+1,p[2]*2-2,p[3]*2-2);}
+  }
 }
+function redraw(){if(!running)render(reduce||done?Infinity:started?elapsed:0);}
 function size(){
-  w=stage.clientWidth; if(!w)return; h=stageH(w);
+  w=stage.clientWidth; if(!w)return; h=views[cur].h(w);
   const dpr=Math.min(2,window.devicePixelRatio||1);
   cv.style.height=h+'px'; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
   render(reduce||done?Infinity:started?elapsed:0);
@@ -328,16 +369,41 @@ function tick(now){
   if(elapsed>=views[cur].dur){render(Infinity);running=false;done=true;return;}
   render(elapsed); raf=requestAnimationFrame(tick);
 }
+function clearSel(){sel=-1;pinned=false;tip.style.opacity=0;detail.textContent=hint;}
 function start(){
-  cancelAnimationFrame(raf); started=true; st={}; tip.style.opacity=0;
+  cancelAnimationFrame(raf); started=true; st={}; clearSel();
   if(reduce){render(Infinity);done=true;running=false;return;}
   elapsed=0;done=false;running=true;last=performance.now();raf=requestAnimationFrame(tick);
 }
-function select(i){
+function choose(i){
   cur=i; tabEls.forEach((b,k)=>{b.setAttribute('aria-selected',k===i);b.tabIndex=k===i?0:-1;});
-  $('cap').textContent=views[i].cap; cv.setAttribute('aria-label',views[i].name+' view of the GitHub contribution graph');
+  $('cap').textContent=views[i].cap; cv.setAttribute('aria-label',views[i].name+' view of the GitHub contribution graph. '+hint);
   size(); start();
 }
+function show(i,pin){
+  sel=i; pinned=!!pin; detail.textContent=detailText(i);
+  const p=st.pos&&st.pos(i);
+  if(p){tip.textContent=counts[i]+' on '+fmt(i); tip.style.left=clamp(p[0],60,w-60)+'px'; tip.style.top=Math.max(p[1]-p[3],14)+'px'; tip.style.opacity=1;}
+  else tip.style.opacity=0;
+  redraw();
+}
+function pointXY(ev){const r=cv.getBoundingClientRect();return [ev.clientX-r.left,ev.clientY-r.top];}
+cv.addEventListener('pointermove',ev=>{
+  if(ev.pointerType==='touch'||pinned)return;
+  const [x,y]=pointXY(ev), i=hitTest(st,x,y);
+  if(i<0){if(sel>=0){clearSel();redraw();}return;}
+  if(i!==sel)show(i,false);
+});
+cv.addEventListener('pointerleave',ev=>{if(ev.pointerType!=='touch'&&!pinned&&sel>=0){clearSel();redraw();}});
+cv.addEventListener('click',ev=>{
+  const [x,y]=pointXY(ev), i=hitTest(st,x,y);
+  if(i<0||(pinned&&i===sel)){clearSel();redraw();return;}
+  show(i,true);
+});
+cv.addEventListener('keydown',ev=>{
+  const d={ArrowLeft:-7,ArrowRight:7,ArrowUp:-1,ArrowDown:1}[ev.key]; if(d===undefined)return;
+  ev.preventDefault(); const base=sel<0?n-1:sel; show(clamp(base+d,0,n-1),true);
+});
 $('replay').addEventListener('click',start);
 new ResizeObserver(size).observe(stage);
 new IntersectionObserver(es=>{
@@ -345,18 +411,12 @@ new IntersectionObserver(es=>{
   if(vis){ if(!started)start(); else if(!done&&!running){running=true;last=performance.now();raf=requestAnimationFrame(tick);} }
   else running=false;
 },{threshold:0.4}).observe(stage);
-cv.addEventListener('mousemove',ev=>{
-  const L=st.L; if(!views[cur].hover||!L)return; const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top;
-  const c=Math.floor((x-L.x0)/L.step), rw=Math.floor((y-L.y0)/L.step), i=c*7+rw;
-  if(c<0||rw<0||rw>6||i>=n||(x-L.x0)%L.step>L.size||(y-L.y0)%L.step>L.size){tip.style.opacity=0;return;}
-  tip.textContent=counts[i]+' contribution'+(counts[i]===1?'':'s')+' on '+fmt(i);
-  tip.style.left=(L.x0+c*L.step+L.size/2)+'px'; tip.style.top=(L.y0+rw*L.step)+'px'; tip.style.opacity=1;
-});
-cv.addEventListener('mouseleave',()=>{tip.style.opacity=0;});
 
-const ready=document.fonts&&document.fonts.load?Promise.race([Promise.all([document.fonts.load('650 40px Geist'),document.fonts.load('400 15px Geist'),document.fonts.load('400 12px "Geist Mono"')]),new Promise(r=>setTimeout(r,1200))]):Promise.resolve();
+detail.textContent=hint;
+const ready=document.fonts&&document.fonts.load?Promise.race([Promise.all([document.fonts.load('650 36px Geist'),document.fonts.load('400 15px Geist'),document.fonts.load('400 12px "Geist Mono"')]),new Promise(r=>setTimeout(r,1200))]):Promise.resolve();
 tabEls[0].setAttribute('aria-selected','true');
-ready.then(()=>{select(0);});
+ready.then(()=>{choose(0);});
+window.__page={choose,show,hitTest:(x,y)=>hitTest(st,x,y),get sel(){return sel;},get pinned(){return pinned;},get done(){return done;}};
 })();
 </script>
 </body>

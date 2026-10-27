@@ -35,7 +35,7 @@ const LEVEL = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 
 const data = {
   user,
   start: days[0].date,
-  updated: new Date().toISOString().slice(0, 10),
+  updated: new Date().toISOString().slice(0, 10), // date of the last successful fetch (UTC)
   total: cal.totalContributions,
   counts: days.map((d) => d.contributionCount),
   levels: days.map((d) => LEVEL[d.contributionLevel]).join(''),
