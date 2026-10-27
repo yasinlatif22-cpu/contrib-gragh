@@ -3,36 +3,63 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contribution Graph</title>
+<title>GitHub activity</title>
+<meta name="description" content="A year of GitHub contributions, drawn six ways.">
+<meta name="theme-color" content="#060912">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--fg:#e6edf3;--mute:#8b949e;--g:#39d353}
+:root{--ink:#060912;--panel:#0b1120;--raise:#16203a;--line:#1a2440;--text:#e8ecf8;--mute:#8592b3;--blue:#2d6cff;--cyan:#35c4ff;--amber:#ffb547}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
-main{max-width:980px;margin:0 auto;padding:40px 16px 80px}
-h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}
-header p{color:var(--mute);margin:0 0 6px}
-.demo{display:inline-block;margin-top:8px;padding:6px 10px;border:1px solid #9e6a03;background:#272115;color:#e3b341;border-radius:8px;font-size:13px}
-section{margin-top:32px}
-.head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-h2{font-size:18px;margin:0}
-section>p{color:var(--mute);margin:2px 0 10px;font-size:14px}
-button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
-button:hover{border-color:var(--g)}
-.box{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.box.term{background:#010409}
+html{color-scheme:dark}
+body{margin:0;background:var(--ink);color:var(--text);font:16px/1.5 Geist,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 20px 64px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap;margin-bottom:28px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.05;letter-spacing:-.035em;font-weight:650;margin:0}
+.sub{color:var(--mute);font-size:14px;margin:0}
+.demo{display:none;margin:0 0 16px;padding:8px 12px;border:1px solid #6b4a12;background:#1d1608;color:var(--amber);border-radius:10px;font-size:13px}
+.demo.on{display:block}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+[role=tablist]{display:flex;gap:2px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow-x:auto;max-width:100%;scrollbar-width:none}
+[role=tablist]::-webkit-scrollbar{display:none}
+[role=tab]{appearance:none;background:none;border:0;color:var(--mute);font:500 14px Geist,system-ui,sans-serif;padding:8px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:color .15s,background .15s}
+[role=tab]:hover{color:var(--text)}
+[role=tab][aria-selected=true]{background:var(--raise);color:var(--text)}
+.replay{appearance:none;background:none;border:1px solid var(--line);color:var(--text);font:500 14px Geist,system-ui,sans-serif;padding:8px 14px;border-radius:10px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;flex:none}
+.replay:hover{border-color:var(--cyan)}
+.replay svg{width:14px;height:14px}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.stage{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 canvas{display:block;width:100%}
-.tip{position:absolute;pointer-events:none;background:#000;border:1px solid var(--line);color:var(--fg);font-size:12px;padding:4px 8px;border-radius:6px;white-space:nowrap;opacity:0;transform:translate(-50%,-130%);transition:opacity .1s}
+.tip{position:absolute;pointer-events:none;background:#02050c;border:1px solid var(--line);color:var(--text);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-135%);transition:opacity .12s}
+.cap{color:var(--mute);font-size:14px;margin:14px 2px 0;max-width:62ch}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);margin:32px 0 0;border-top:1px solid var(--line)}
+.stat{padding:18px 16px 0 0}
+.stat b{display:block;font-size:clamp(22px,3vw,32px);line-height:1.15;font-weight:650;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--mute);font-size:13px}
+footer{margin-top:44px;color:var(--mute);font-size:13px}
+footer a{color:var(--cyan);text-underline-offset:3px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}.stat{padding-bottom:6px}.replay span{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<main>
+<div class="wrap">
   <header>
-    <h1>Contribution graph</h1>
-    <p id="meta"></p>
-    <div id="demo" class="demo" hidden>Generated demo data. Run <code>node scripts/fetch-github.mjs</code> to load the real calendar.</div>
+    <h1 id="who">GitHub activity</h1>
+    <p class="sub" id="meta"></p>
   </header>
-  <div id="root"></div>
-</main>
+  <p class="demo" id="demo">Showing generated demo data. Run scripts/fetch-github.mjs to load the real calendar.</p>
+  <div class="bar">
+    <div role="tablist" aria-label="Views" id="tabs"></div>
+    <button class="replay" id="replay" type="button" aria-label="Replay animation"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.8-4.07"/><path d="M2.5 2.5v3h3"/></svg><span>Replay</span></button>
+  </div>
+  <div class="stage" id="stage"><canvas id="cv" role="img" aria-label="Animated GitHub contribution graph"></canvas><div class="tip" id="tip"></div></div>
+  <p class="cap" id="cap" aria-live="polite"></p>
+  <div class="stats" id="stats"></div>
+  <footer>Data comes from GitHub's contribution calendar and refreshes daily. <a href="https://github.com/yasinlatif22-cpu/contrib-gragh">Source on GitHub</a></footer>
+</div>
 
 <script src="data/github.js"></script>
 <script>
@@ -63,12 +90,16 @@ const wk=[]; for(let w=0;w<weeks;w++){let t=0;for(let r=0;r<7;r++)t+=counts[w*7+
 const maxW=Math.max(1,...wk);
 let e=n-1; if(counts[e]===0)e--; let s=e; while(s>=0&&counts[s]>0)s--;
 const streakStart=s+1, streakLen=Math.max(0,e-s), lastOff=s>=0?s:-1;
+let longest=0,run=0; counts.forEach(c=>{run=c>0?run+1:0;if(run>longest)longest=run;});
+const active=counts.filter(c=>c>0).length;
 const dateOf=i=>{const [y,m,d]=D.start.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+i));};
 const fmt=i=>dateOf(i).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'});
+const fmtShort=i=>dateOf(i).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
 
 /* ---------- helpers ---------- */
-const RAMP=['#161b22','#0e4429','#006d32','#26a641','#39d353'];
-const BRIGHT='#56d364';
+const T={ramp:['#17223d','#1e3f9b','#2d6cff','#35c4ff','#d4f7ff'],slot:'#101830',bright:'#aef0ff',mute:'#8592b3',text:'#e8ecf8',amber:'#ffb547',red:'#ff5c6c',
+  term:['#2a3556','#3b64d8','#35a0ff','#5ad0ff','#d4f7ff']};
+const RAMP=T.ramp;
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const lerp=(a,b,p)=>a+(b-a)*p;
 const easeBack=p=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2);};
@@ -77,228 +108,255 @@ const hex=h=>[1,3,5].map(k=>parseInt(h.slice(k,k+2),16));
 const mix=(a,b,p)=>{const A=hex(a),B=hex(b);return 'rgb('+A.map((v,i)=>Math.round(lerp(v,B[i],p))).join(',')+')';};
 const shade=(h,amt)=>amt>=0?mix(h,'#ffffff',amt):mix(h,'#000000',-amt);
 function rr(ctx,x,y,sz,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,sz,sz,r);else ctx.rect(x,y,sz,sz);ctx.fill();}
-const padOf=w=>Math.min(24,w*0.04);
-function gl(w,h,top){const pad=padOf(w),avW=w-pad*2,avH=h-top-pad;const step=Math.min(avW/weeks,avH/7);return {x0:(w-step*weeks)/2,y0:top,step,size:step*0.82,pad};}
-const gridH=(w,top)=>Math.round(padOf(w)+top+((w-2*padOf(w))/weeks)*7);
+const padOf=w=>Math.min(28,Math.max(16,w*0.035));
+function gl(w,h,top){const pad=padOf(w),avW=w-pad*2,avH=h-top-pad;const step=Math.min(avW/weeks,avH/7);return {x0:(w-step*weeks)/2,y0:top+(avH-step*7)/2,step,size:step*0.82,pad};}
 const cellXY=(L,i)=>[L.x0+col(i)*L.step,L.y0+row(i)*L.step];
-const FONT='-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif';
-const MONO='ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
+const FONT='Geist,system-ui,-apple-system,"Segoe UI",sans-serif';
+const MONO='"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
+const stageH=w=>w<560?Math.round(w*1.05+30):Math.round(clamp(w*0.46,360,520));
+function months(ctx,L,a){
+  ctx.save(); ctx.globalAlpha=a; ctx.fillStyle=T.mute; ctx.font='500 11px '+FONT; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  let pm=-1,last=-10;
+  for(let c=0;c<weeks;c++){
+    const m=dateOf(c*7).getUTCMonth(); if(m===pm)continue; pm=m;
+    if(c===0&&dateOf(21).getUTCMonth()!==m)continue;
+    if(c-last<3)continue; last=c;
+    ctx.fillText(dateOf(c*7).toLocaleDateString('en-US',{month:'short',timeZone:'UTC'}),L.x0+c*L.step,L.y0-8);
+  }
+  ctx.restore();
+}
 
-/* ---------- animations: draw(ctx,w,h,t,st), t = ms since start (Infinity = finished frame) ---------- */
-const anims=[];
+/* ---------- views: draw(ctx,w,h,t,st), t = ms since start (Infinity = finished frame) ---------- */
+const views=[];
 
-anims.push({title:'1 · The grid',desc:'Cells drop in on a diagonal wave and settle into their real shade. Hover any day.',
-  hFn:w=>gridH(w,64),dur:2600,
+views.push({id:'grid',name:'Grid',hover:true,
+  cap:'Each square is a day, darker to brighter by how much you shipped. Hover a square for its date and count.',dur:2600,
   draw(ctx,w,h,t,st){
-    const L=gl(w,h,64); st.L=L; let landed=0;
+    const pad=padOf(w), L=gl(w,h,pad+66); st.L=L; let landed=0;
+    months(ctx,L,t===Infinity?1:clamp((t-400)/500));
     for(let i=0;i<n;i++){
       const [x,y]=cellXY(L,i);
-      ctx.fillStyle='#1c222b'; rr(ctx,x,y,L.size,2);
+      ctx.fillStyle=T.slot; rr(ctx,x,y,L.size,Math.min(3,L.size/4));
       const d=(col(i)+row(i)*1.6)*22, p=clamp((t-d)/560); if(p<=0)continue;
       if(p>=1)landed+=counts[i];
       const sz=L.size*(0.2+0.8*Math.max(0,easeBack(p))), off=(L.size-sz)/2;
-      ctx.fillStyle=p<1?mix(BRIGHT,RAMP[levels[i]],p):RAMP[levels[i]];
-      rr(ctx,x+off,y+off,sz,Math.min(2,sz/3));
+      ctx.fillStyle=p<1?mix(T.bright,RAMP[levels[i]],p):RAMP[levels[i]];
+      rr(ctx,x+off,y+off,sz,Math.min(3,sz/4));
     }
-    const shown=t===Infinity?total:Math.round(landed*total/sum);
-    ctx.fillStyle='#e6edf3'; ctx.font='700 34px '+FONT; ctx.textBaseline='alphabetic'; ctx.textAlign='left';
-    ctx.fillText(shown.toLocaleString(),L.pad,40);
-    const nw=ctx.measureText(shown.toLocaleString()).width;
-    ctx.fillStyle='#8b949e'; ctx.font='14px '+FONT; ctx.fillText('contributions in the last year',L.pad+nw+10,40);
+    const shown=t===Infinity?total:Math.round(landed*total/sum), txt=shown.toLocaleString();
+    ctx.fillStyle=T.text; ctx.font='650 40px '+FONT; ctx.fillText(txt,pad,pad+36);
+    const nw=ctx.measureText(txt).width;
+    ctx.fillStyle=T.mute; ctx.font='400 15px '+FONT; ctx.fillText('contributions in the last year',pad+nw+12,pad+36);
   }});
 
-anims.push({title:'2 · Skyline',desc:'Every day is a building. Height is the square root of the count so one huge day does not flatten the rest.',
-  hFn:w=>Math.round(Math.max(260,w*0.42)),dur:2600,
+views.push({id:'skyline',name:'Skyline',
+  cap:'Every day becomes a building. Height follows the square root of the count so one huge day does not flatten the rest.',dur:2700,
   draw(ctx,w,h,t,st){
     const pad=padOf(w), kx=0.35, ky=0.5, dxk=0.3;
     const s=(w-pad*2)/(weeks+6*kx+dxk+0.2), ox=s*kx, oy=s*ky, bw=s*0.8, dx=s*dxk, dy=s*dxk;
-    const y0=h-pad-6*oy, maxH=Math.max(30,Math.min(h*0.55,y0-pad-44));
-    const x0=pad;
+    const y0=h-pad-6*oy-8, maxH=Math.max(30,Math.min(h*0.58,y0-pad-50)), x0=pad;
     let bestTop=null;
     for(let r=0;r<7;r++)for(let c=0;c<weeks;c++){
       const i=c*7+r; if(i>=n)continue;
       const bx=x0+c*s+(6-r)*ox, by=y0+r*oy;
-      const d=c*14+r*40, p=clamp((t-d)/600);
+      const d=c*14+r*40, p=clamp((t-d)/600); if(p<=0)continue;
       const full=counts[i]===0?2:Math.max(3,Math.sqrt(counts[i]/maxC)*maxH);
-      const hh=p<=0?0:Math.max(2,full*easeOut(p));
-      if(p<=0)continue;
-      const base=RAMP[levels[i]]==='#161b22'?'#2a313c':RAMP[levels[i]];
+      const hh=Math.max(2,full*easeOut(p));
+      const base=levels[i]===0?'#26345a':RAMP[levels[i]];
       ctx.fillStyle=base; ctx.fillRect(bx,by-hh,bw,hh);
-      ctx.fillStyle=shade(base,0.28); ctx.beginPath();ctx.moveTo(bx,by-hh);ctx.lineTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+dx,by-hh-dy);ctx.closePath();ctx.fill();
-      ctx.fillStyle=shade(base,-0.4); ctx.beginPath();ctx.moveTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+bw+dx,by-dy);ctx.lineTo(bx+bw,by);ctx.closePath();ctx.fill();
+      ctx.fillStyle=shade(base,0.3); ctx.beginPath();ctx.moveTo(bx,by-hh);ctx.lineTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+dx,by-hh-dy);ctx.closePath();ctx.fill();
+      ctx.fillStyle=shade(base,-0.42); ctx.beginPath();ctx.moveTo(bx+bw,by-hh);ctx.lineTo(bx+bw+dx,by-hh-dy);ctx.lineTo(bx+bw+dx,by-dy);ctx.lineTo(bx+bw,by);ctx.closePath();ctx.fill();
       if(i===best)bestTop=[bx+bw/2+dx/2,by-hh-dy];
     }
     const q=clamp((t-1800)/500);
     if(bestTop&&q>0){
-      const ty=pad+16, label='Best day · '+maxC+' on '+fmt(best);
-      ctx.globalAlpha=q; ctx.strokeStyle='#8b949e'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-      ctx.beginPath(); ctx.moveTo(bestTop[0],bestTop[1]-4); ctx.lineTo(bestTop[0],lerp(bestTop[1]-4,ty+6,q)); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#e6edf3'; ctx.font='600 13px '+FONT; ctx.textBaseline='alphabetic';
-      const tw=ctx.measureText(label).width; const lx=clamp(bestTop[0]-tw/2,pad,w-pad-tw);
-      ctx.textAlign='left'; ctx.fillText(label,lx,ty); ctx.globalAlpha=1;
+      const ty=pad+18, label='Best day: '+maxC+' on '+fmt(best);
+      ctx.globalAlpha=q; ctx.strokeStyle=T.amber; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(bestTop[0],bestTop[1]-5); ctx.lineTo(bestTop[0],lerp(bestTop[1]-5,ty+8,q)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle=T.amber; ctx.font='600 14px '+FONT;
+      const tw=ctx.measureText(label).width, lx=clamp(bestTop[0]-tw/2,pad,w-pad-tw);
+      ctx.fillText(label,lx,ty); ctx.globalAlpha=1;
     }
   }});
 
-anims.push({title:'3 · Week by week',desc:'Weekly totals draw as a line, then each week pours down into its seven days.',
-  hFn:w=>Math.round(Math.max(290,w*0.55)),dur:3100,
+views.push({id:'weekly',name:'Weekly',
+  cap:'Weekly totals draw as a line, then each week pours down into its seven days.',dur:3100,
   draw(ctx,w,h,t,st){
-    const Lg=gl(w,h,h*0.46); Lg.y0=h-Lg.pad-7*Lg.step;
-    const lineTop=Lg.pad+10, lineBot=Math.min(h*0.4,Lg.y0-14);
+    const Lg=gl(w,h,h*0.5); Lg.y0=h-Lg.pad-7*Lg.step;
+    const lineTop=Lg.pad+34, lineBot=Math.max(lineTop+40,Lg.y0-22);
     const px=k=>Lg.x0+k*Lg.step+Lg.size/2, py=k=>lineBot-(wk[k]/maxW)*(lineBot-lineTop);
-    const T=1600, p=clamp(t/T), f=p*(weeks-1), fi=Math.floor(f);
-    const alpha=t<=T?1:Math.max(0.3,1-(t-T)/900);
-    ctx.globalAlpha=alpha; ctx.strokeStyle='#39d353'; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.beginPath();
-    for(let k=0;k<=Math.min(fi,weeks-1);k++){k===0?ctx.moveTo(px(k),py(k)):ctx.lineTo(px(k),py(k));}
-    let dot=[px(Math.min(fi,weeks-1)),py(Math.min(fi,weeks-1))];
+    const TL=1600, p=clamp(t/TL), f=p*(weeks-1), fi=Math.min(Math.floor(f),weeks-1);
+    const alpha=t<=TL?1:Math.max(0.3,1-(t-TL)/900);
+    ctx.globalAlpha=alpha; ctx.strokeStyle=T.ramp[3]; ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.beginPath();
+    for(let k=0;k<=fi;k++){k===0?ctx.moveTo(px(k),py(k)):ctx.lineTo(px(k),py(k));}
+    let dot=[px(fi),py(fi)];
     if(fi<weeks-1){const fr=f-fi,xx=lerp(px(fi),px(fi+1),fr),yy=lerp(py(fi),py(fi+1),fr);ctx.lineTo(xx,yy);dot=[xx,yy];}
     ctx.stroke(); ctx.globalAlpha=1;
-    if(t<T+300){ctx.fillStyle='#56d364';ctx.shadowColor='#39d353';ctx.shadowBlur=12;ctx.beginPath();ctx.arc(dot[0],dot[1],4,0,7);ctx.fill();ctx.shadowBlur=0;}
+    if(t<TL+300){ctx.fillStyle=T.bright;ctx.shadowColor=T.ramp[3];ctx.shadowBlur=14;ctx.beginPath();ctx.arc(dot[0],dot[1],4.5,0,7);ctx.fill();ctx.shadowBlur=0;}
     for(let i=0;i<n;i++){
       const k=col(i), r=row(i), [cx,cy]=cellXY(Lg,i);
-      ctx.fillStyle='#1c222b'; rr(ctx,cx,cy,Lg.size,2);
-      const st0=T*(k/(weeks-1))+r*40, q=clamp((t-st0)/650); if(q<=0)continue;
+      ctx.fillStyle=T.slot; rr(ctx,cx,cy,Lg.size,Math.min(3,Lg.size/4));
+      const st0=TL*(k/(weeks-1))+r*40, q=clamp((t-st0)/650); if(q<=0)continue;
       const e2=easeOut(q), yy=lerp(py(k)-Lg.size/2,cy,e2), xx=lerp(px(k)-Lg.size/2,cx,e2);
-      ctx.globalAlpha=Math.min(1,q*2); ctx.fillStyle=RAMP[levels[i]]; rr(ctx,xx,yy,Lg.size,2); ctx.globalAlpha=1;
+      ctx.globalAlpha=Math.min(1,q*2); ctx.fillStyle=RAMP[levels[i]]; rr(ctx,xx,yy,Lg.size,Math.min(3,Lg.size/4)); ctx.globalAlpha=1;
     }
-    ctx.fillStyle='#8b949e'; ctx.font='12px '+FONT; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-    ctx.fillText('Busiest week · '+maxW+' contributions',Lg.pad,Lg.pad+2);
+    ctx.fillStyle=T.mute; ctx.font='400 14px '+FONT;
+    ctx.fillText('Busiest week: '+maxW+' contributions',Lg.pad,Lg.pad+14);
   }});
 
-anims.push({title:'4 · Round the year',desc:'The calendar bent into a ring: seven rings for weekdays, one spoke per week, swept by a hand.',
-  hFn:w=>Math.round(Math.min(w,520)),dur:3700,
+views.push({id:'ring',name:'Ring',
+  cap:'The calendar bent into a ring: seven rings for the days of the week, one spoke per week, revealed by a sweeping hand.',dur:3700,
   draw(ctx,w,h,t,st){
-    const cx=w/2, cy=h/2, R=Math.min(w,h)/2-14, r0=R*0.3, rs=(R-r0)/7, da=Math.PI*2/weeks, a0=-Math.PI/2;
+    const cx=w/2, cy=h/2, R=Math.min(w,h)/2-16, r0=R*0.3, rs=(R-r0)/7, da=Math.PI*2/weeks, a0=-Math.PI/2;
     const prog=clamp(t/3200), hand=a0+Math.PI*2*prog;
     for(let i=0;i<n;i++){
       const k=col(i), r=row(i), ang0=a0+k*da+0.012, ang1=a0+(k+1)*da-0.012;
       const inner=r0+r*rs+1, outer=r0+(r+1)*rs-1;
-      const reach=(k*da)/(Math.PI*2); const q=t===Infinity?1:clamp((prog-reach)*Math.PI*2/ (da*3));
-      ctx.globalAlpha=0.35; ctx.fillStyle='#1c222b';
+      const reach=(k*da)/(Math.PI*2), q=t===Infinity?1:clamp((prog-reach)*Math.PI*2/(da*3));
+      ctx.globalAlpha=0.5; ctx.fillStyle=T.slot;
       ctx.beginPath(); ctx.arc(cx,cy,outer,ang0,ang1); ctx.arc(cx,cy,inner,ang1,ang0,true); ctx.closePath(); ctx.fill();
       if(q<=0)continue;
       ctx.globalAlpha=q; ctx.fillStyle=RAMP[levels[i]];
       ctx.beginPath(); ctx.arc(cx,cy,outer,ang0,ang1); ctx.arc(cx,cy,inner,ang1,ang0,true); ctx.closePath(); ctx.fill();
     }
     ctx.globalAlpha=1;
-    if(t<3300){ctx.strokeStyle='rgba(86,211,100,.8)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx+Math.cos(hand)*r0*0.9,cy+Math.sin(hand)*r0*0.9);ctx.lineTo(cx+Math.cos(hand)*R,cy+Math.sin(hand)*R);ctx.stroke();}
+    if(t<3300){ctx.strokeStyle=T.bright;ctx.globalAlpha=0.8;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx+Math.cos(hand)*r0*0.9,cy+Math.sin(hand)*r0*0.9);ctx.lineTo(cx+Math.cos(hand)*R,cy+Math.sin(hand)*R);ctx.stroke();ctx.globalAlpha=1;}
     const shown=t===Infinity?total:Math.round(total*prog);
-    ctx.textAlign='center'; ctx.fillStyle='#e6edf3'; ctx.font='700 '+Math.round(r0*0.5)+'px '+FONT; ctx.textBaseline='alphabetic';
-    ctx.fillText(shown.toLocaleString(),cx,cy+r0*0.12);
-    ctx.fillStyle='#8b949e'; ctx.font='12px '+FONT; ctx.fillText('contributions',cx,cy+r0*0.12+18);
+    ctx.textAlign='center'; ctx.fillStyle=T.text; ctx.font='650 '+Math.round(r0*0.52)+'px '+FONT;
+    ctx.fillText(shown.toLocaleString(),cx,cy+r0*0.14);
+    ctx.fillStyle=T.mute; ctx.font='400 13px '+FONT; ctx.fillText('contributions',cx,cy+r0*0.14+20);
   }});
 
-anims.push({title:'5 · The streak',desc:'Everything fades back and a dot runs through your current streak, one day at a time.',
-  hFn:w=>gridH(w,56),dur:(()=>{const pd=streakLen?Math.min(34,3600/streakLen):0;return 700+streakLen*pd+700;})(),
+const streakDur=(()=>{const pd=streakLen?Math.min(34,3600/streakLen):0;return 700+streakLen*pd+700;})();
+views.push({id:'streak',name:'Streak',hover:true,
+  cap:streakLen?'Everything dims and a light runs through your current streak, one day at a time. A red cross marks the last day off.':'No active streak right now. Commit today and this view lights up.',
+  dur:streakDur,
   draw(ctx,w,h,t,st){
-    const L=gl(w,h,56), pd=streakLen?Math.min(34,3600/streakLen):0;
+    const pad=padOf(w), L=gl(w,h,pad+66); st.L=L; const pd=streakLen?Math.min(34,3600/streakLen):0;
     const kf=streakLen?clamp((t-700)/pd,0,streakLen-1):0, kc=t===Infinity?streakLen-1:kf;
-    const dim=t===Infinity?0.25:1-0.75*clamp(t/500);
+    const dim=t===Infinity?0.22:1-0.78*clamp(t/500);
+    months(ctx,L,dim);
     for(let i=0;i<n;i++){
       const [x,y]=cellXY(L,i), k=i-streakStart, inS=k>=0&&k<streakLen;
       const lit=inS&&(t===Infinity||t>=700+k*pd);
-      ctx.globalAlpha=inS?(lit?1:dim):dim; ctx.fillStyle=inS?RAMP[levels[i]]:RAMP[levels[i]]; rr(ctx,x,y,L.size,2);
-      if(inS&&lit){ctx.globalAlpha=0.9;}
+      ctx.globalAlpha=inS?(lit?1:dim):dim; ctx.fillStyle=levels[i]===0&&!inS?T.slot:RAMP[levels[i]]; rr(ctx,x,y,L.size,Math.min(3,L.size/4));
     }
     ctx.globalAlpha=1;
-    if(streakLen>0){
+    if(streakLen>0&&t!==Infinity&&t<700+streakLen*pd+200){
       const f0=Math.floor(kc);
-      if(t!==Infinity&&t<700+streakLen*pd+200){
-        for(let j=8;j>=0;j--){
-          const k=f0-j; if(k<0)continue; const [x,y]=cellXY(L,streakStart+k);
-          ctx.globalAlpha=(1-j/9)*0.7; ctx.fillStyle='#56d364'; ctx.shadowColor='#39d353'; ctx.shadowBlur=10;
-          ctx.beginPath(); ctx.arc(x+L.size/2,y+L.size/2,L.size*0.5*(1-j/12),0,7); ctx.fill();
-        }
-        ctx.shadowBlur=0; ctx.globalAlpha=1;
+      for(let j=8;j>=0;j--){
+        const k=f0-j; if(k<0)continue; const [x,y]=cellXY(L,streakStart+k);
+        ctx.globalAlpha=(1-j/9)*0.75; ctx.fillStyle=T.amber; ctx.shadowColor=T.amber; ctx.shadowBlur=12;
+        ctx.beginPath(); ctx.arc(x+L.size/2,y+L.size/2,L.size*0.48*(1-j/12),0,7); ctx.fill();
       }
+      ctx.shadowBlur=0; ctx.globalAlpha=1;
     }
     if(lastOff>=0&&(t===Infinity||t>400)){
       const [x,y]=cellXY(L,lastOff), m=L.size*0.22;
-      ctx.strokeStyle='#f85149'; ctx.lineWidth=Math.max(1.5,L.size*0.14); ctx.lineCap='round';
+      ctx.strokeStyle=T.red; ctx.lineWidth=Math.max(1.5,L.size*0.14); ctx.lineCap='round';
       ctx.beginPath(); ctx.moveTo(x+m,y+m); ctx.lineTo(x+L.size-m,y+L.size-m); ctx.moveTo(x+L.size-m,y+m); ctx.lineTo(x+m,y+L.size-m); ctx.stroke();
     }
-    ctx.textAlign='left'; ctx.textBaseline='alphabetic'; ctx.fillStyle='#e6edf3'; ctx.font='700 30px '+FONT;
+    ctx.fillStyle=streakLen?T.amber:T.text; ctx.font='650 40px '+FONT;
     const label=streakLen?('Day '+Math.min(streakLen,Math.floor(kc)+1)):'No active streak';
-    ctx.fillText(label,L.pad,34);
-    if(streakLen){const lw=ctx.measureText(label).width; ctx.fillStyle='#8b949e'; ctx.font='14px '+FONT; ctx.fillText('of '+streakLen+' · current streak',L.pad+lw+10,34);}
+    ctx.fillText(label,pad,pad+36);
+    if(streakLen){const lw=ctx.measureText(label).width; ctx.fillStyle=T.mute; ctx.font='400 15px '+FONT; ctx.fillText('of '+streakLen+', your current streak',pad+lw+12,pad+36);}
   }});
 
 const GLY=['.',':','+','#','@'];
 const termCmd='$ gh contrib '+D.user+' --year';
-anims.push({title:'6 · In the terminal',desc:'The command types itself, then every day scrambles and settles into . : + # @ by level.',
-  term:true,
-  hFn:w=>{const cw=(w-32)/weeks,fs=clamp(cw*1.5,8,16);return Math.round(16+fs*2.8+7*fs*1.3+fs*3.4);},
-  dur:(()=>{const cmdEnd=termCmd.length*38;return cmdEnd+250+weeks*28+7*12+380+200+90*22+400;})(),
+const termDur=(()=>{const cmdEnd=termCmd.length*38;return cmdEnd+250+weeks*28+7*12+380+200+90*22+400;})();
+views.push({id:'terminal',name:'Terminal',
+  cap:'The command types itself, then every day scrambles and settles into . : + # @ by how much you shipped.',dur:termDur,
   draw(ctx,w,h,t,st){
-    const pad=16, cw=(w-2*pad)/weeks, fs=clamp(cw*1.5,8,16), rh=fs*1.3;
-    ctx.textBaseline='alphabetic'; ctx.font=fs+'px '+MONO; ctx.textAlign='left';
+    ctx.fillStyle='#03050b'; ctx.fillRect(0,0,w,h);
+    const pad=padOf(w), cw=(w-2*pad)/weeks, fs=clamp(cw*1.5,8,17), rh=fs*1.3;
+    const blockH=fs*2.8+7*rh+fs*3.4, oy=Math.max(pad,(h-blockH)/2);
+    ctx.font=fs+'px '+MONO;
     const cmdEnd=termCmd.length*38, nCmd=Math.min(termCmd.length,Math.floor(t/38));
-    ctx.fillStyle='#7ee787'; ctx.fillText(termCmd.slice(0,nCmd),pad,pad+fs);
-    const gy=pad+fs*2.8;
-    const sumTxt='> '+total.toLocaleString()+' contributions · '+streakLen+'-day streak · best day '+maxC;
+    ctx.fillStyle=T.term[3]; ctx.fillText(termCmd.slice(0,nCmd),pad,oy+fs);
+    const gy=oy+fs*2.8;
+    const sumTxt='> '+total.toLocaleString()+' contributions, '+streakLen+'-day streak, best day '+maxC;
     const sumStart=cmdEnd+250+weeks*28+7*12+380+200;
     ctx.textAlign='center';
     for(let i=0;i<n;i++){
       const rs=cmdEnd+250+col(i)*28+row(i)*12; if(t<rs)continue;
       const fin=t>=rs+380; let g;
       if(fin)g=GLY[levels[i]]; else g=GLY[(Math.imul(i,2654435761)+Math.floor(t/70)*40503>>>0)%5];
-      ctx.fillStyle=fin?(levels[i]===0?'#30363d':RAMP[levels[i]]):'#8b949e';
+      ctx.fillStyle=fin?T.term[levels[i]]:T.mute;
       ctx.fillText(g,pad+col(i)*cw+cw/2,gy+row(i)*rh+fs);
     }
     ctx.textAlign='left'; const nSum=t<sumStart?0:Math.min(sumTxt.length,Math.floor((t-sumStart)/22));
-    ctx.fillStyle='#e6edf3'; ctx.fillText(sumTxt.slice(0,nSum),pad,gy+7*rh+fs*1.8);
-    if(t!==Infinity&&Math.floor(t/450)%2===0){const tw=ctx.measureText(sumTxt.slice(0,nSum)).width;ctx.fillStyle='#e6edf3';ctx.fillRect(pad+tw+3,gy+7*rh+fs*0.8,fs*0.55,fs*1.1);}
+    ctx.fillStyle=T.text; ctx.fillText(sumTxt.slice(0,nSum),pad,gy+7*rh+fs*1.8);
+    if(t!==Infinity&&Math.floor(t/450)%2===0){const tw=ctx.measureText(sumTxt.slice(0,nSum)).width;ctx.fillStyle=T.text;ctx.fillRect(pad+tw+3,gy+7*rh+fs*0.8,fs*0.55,fs*1.1);}
   }});
 
-if(typeof window!=='undefined')window.__anims=anims;
+if(typeof window!=='undefined'){window.__anims=views;window.__stageH=stageH;}
 if(typeof document==='undefined')return;
 
-/* ---------- runtime ---------- */
+/* ---------- page ---------- */
 const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-document.getElementById('meta').textContent='@'+D.user+' · '+total.toLocaleString()+' contributions in the last year · '+streakLen+'-day current streak';
-if(D.demo)document.getElementById('demo').hidden=false;
-const root=document.getElementById('root');
+const $=id=>document.getElementById(id);
+$('who').textContent='@'+D.user;
+$('meta').textContent=D.updated?('Last 12 months. Updated '+new Date(D.updated+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'.'):'Last 12 months of GitHub contributions.';
+if(D.demo)$('demo').classList.add('on');
+document.title='@'+D.user+' on GitHub';
+const statData=[[total.toLocaleString(),'Contributions'],[streakLen+(streakLen===1?' day':' days'),'Current streak'],[longest+(longest===1?' day':' days'),'Longest streak'],[String(maxC),'Best day, '+fmtShort(best)],[Math.round(active/n*100)+'%','Days with activity']];
+$('stats').innerHTML=statData.map(s=>'<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>').join('');
 
-anims.forEach((a,idx)=>{
-  const sec=document.createElement('section');
-  sec.innerHTML='<div class="head"><h2>'+a.title+'</h2><button type="button">Replay</button></div><p>'+a.desc+'</p><div class="box'+(a.term?' term':'')+'"><canvas></canvas><div class="tip"></div></div>';
-  root.appendChild(sec);
-  const cv=sec.querySelector('canvas'), box=sec.querySelector('.box'), tip=sec.querySelector('.tip'), ctx=cv.getContext('2d');
-  const st={}; let w=0,h=0,elapsed=0,last=0,running=false,done=false,started=false,raf=0;
-  function render(t){ctx.clearRect(0,0,w,h);ctx.globalAlpha=1;ctx.shadowBlur=0;a.draw(ctx,w,h,t,st);}
-  function size(){
-    w=box.clientWidth; if(!w)return; h=a.hFn(w);
-    const dpr=Math.min(2,window.devicePixelRatio||1);
-    cv.style.height=h+'px'; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
-    render(reduce||done?Infinity:started?elapsed:0);
-  }
-  function tick(now){
-    if(!running)return; elapsed+=now-last; last=now;
-    if(elapsed>=a.dur){render(Infinity);running=false;done=true;return;}
-    render(elapsed); raf=requestAnimationFrame(tick);
-  }
-  function start(){
-    cancelAnimationFrame(raf); started=true;
-    if(reduce){render(Infinity);done=true;running=false;return;}
-    elapsed=0;done=false;running=true;last=performance.now();raf=requestAnimationFrame(tick);
-  }
-  sec.querySelector('button').addEventListener('click',start);
-  new ResizeObserver(size).observe(box);
-  new IntersectionObserver(es=>{
-    const vis=es[0].isIntersecting;
-    if(vis){ if(!started)start(); else if(!done&&!running){running=true;last=performance.now();raf=requestAnimationFrame(tick);} }
-    else running=false;
-  },{threshold:0.4}).observe(box);
-  if(idx===0){
-    cv.addEventListener('mousemove',ev=>{
-      const L=st.L; if(!L)return; const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top;
-      const c=Math.floor((x-L.x0)/L.step), rw=Math.floor((y-L.y0)/L.step), i=c*7+rw;
-      if(c<0||rw<0||rw>6||i>=n||(x-L.x0)%L.step>L.size||(y-L.y0)%L.step>L.size){tip.style.opacity=0;return;}
-      tip.textContent=counts[i]+' contribution'+(counts[i]===1?'':'s')+' · '+fmt(i);
-      tip.style.left=(L.x0+c*L.step+L.size/2)+'px'; tip.style.top=(L.y0+rw*L.step)+'px'; tip.style.opacity=1;
-    });
-    cv.addEventListener('mouseleave',()=>{tip.style.opacity=0;});
-  }
+const cv=$('cv'), stage=$('stage'), tip=$('tip'), tabs=$('tabs'), ctx=cv.getContext('2d');
+let cur=0, st={}, w=0, h=0, elapsed=0, last=0, running=false, done=false, started=false, raf=0;
+const tabEls=views.map((v,i)=>{
+  const b=document.createElement('button'); b.type='button'; b.setAttribute('role','tab'); b.id='tab-'+v.id; b.textContent=v.name;
+  b.addEventListener('click',()=>select(i)); tabs.appendChild(b); return b;
 });
+tabs.addEventListener('keydown',ev=>{
+  if(ev.key!=='ArrowRight'&&ev.key!=='ArrowLeft')return;
+  const i=(cur+(ev.key==='ArrowRight'?1:views.length-1))%views.length; select(i); tabEls[i].focus(); ev.preventDefault();
+});
+function render(t){
+  ctx.clearRect(0,0,w,h); ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.textAlign='left'; ctx.textBaseline='alphabetic'; ctx.lineCap='butt'; ctx.setLineDash([]);
+  views[cur].draw(ctx,w,h,t,st);
+}
+function size(){
+  w=stage.clientWidth; if(!w)return; h=stageH(w);
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.height=h+'px'; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
+  render(reduce||done?Infinity:started?elapsed:0);
+}
+function tick(now){
+  if(!running)return; elapsed+=now-last; last=now;
+  if(elapsed>=views[cur].dur){render(Infinity);running=false;done=true;return;}
+  render(elapsed); raf=requestAnimationFrame(tick);
+}
+function start(){
+  cancelAnimationFrame(raf); started=true; st={}; tip.style.opacity=0;
+  if(reduce){render(Infinity);done=true;running=false;return;}
+  elapsed=0;done=false;running=true;last=performance.now();raf=requestAnimationFrame(tick);
+}
+function select(i){
+  cur=i; tabEls.forEach((b,k)=>{b.setAttribute('aria-selected',k===i);b.tabIndex=k===i?0:-1;});
+  $('cap').textContent=views[i].cap; cv.setAttribute('aria-label',views[i].name+' view of the GitHub contribution graph');
+  size(); start();
+}
+$('replay').addEventListener('click',start);
+new ResizeObserver(size).observe(stage);
+new IntersectionObserver(es=>{
+  const vis=es[0].isIntersecting;
+  if(vis){ if(!started)start(); else if(!done&&!running){running=true;last=performance.now();raf=requestAnimationFrame(tick);} }
+  else running=false;
+},{threshold:0.4}).observe(stage);
+cv.addEventListener('mousemove',ev=>{
+  const L=st.L; if(!views[cur].hover||!L)return; const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top;
+  const c=Math.floor((x-L.x0)/L.step), rw=Math.floor((y-L.y0)/L.step), i=c*7+rw;
+  if(c<0||rw<0||rw>6||i>=n||(x-L.x0)%L.step>L.size||(y-L.y0)%L.step>L.size){tip.style.opacity=0;return;}
+  tip.textContent=counts[i]+' contribution'+(counts[i]===1?'':'s')+' on '+fmt(i);
+  tip.style.left=(L.x0+c*L.step+L.size/2)+'px'; tip.style.top=(L.y0+rw*L.step)+'px'; tip.style.opacity=1;
+});
+cv.addEventListener('mouseleave',()=>{tip.style.opacity=0;});
+
+const ready=document.fonts&&document.fonts.load?Promise.race([Promise.all([document.fonts.load('650 40px Geist'),document.fonts.load('400 15px Geist'),document.fonts.load('400 12px "Geist Mono"')]),new Promise(r=>setTimeout(r,1200))]):Promise.resolve();
+tabEls[0].setAttribute('aria-selected','true');
+ready.then(()=>{select(0);});
 })();
 </script>
 </body>
