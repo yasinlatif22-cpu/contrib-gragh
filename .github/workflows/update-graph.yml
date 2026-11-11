@@ -20,7 +20,7 @@ jobs:
           node-version: 22
       - run: node scripts/fetch-github.mjs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CONTRIB_TOKEN || secrets.GITHUB_TOKEN }}
           GH_USER: ${{ github.repository_owner }}
       - name: Commit if changed
         run: |
