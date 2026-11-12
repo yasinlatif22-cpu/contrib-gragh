@@ -1,7 +1,14 @@
 # GitHub Activity Graph
 
-An animated view of my GitHub contribution calendar for the past year, published with GitHub Pages:
-https://yasinlatif22-cpu.github.io/contrib-gragh/
+### [View the live graph](https://yasinlatif22-cpu.github.io/contrib-gragh/)
+
+An animated view of my GitHub contribution calendar for the past year, drawn six ways (grid, skyline, weekly, ring, streak and
+terminal) and published with GitHub Pages. It refreshes daily.
+
+[![Screenshot of the live GitHub activity graph: a grid of daily contribution squares for the past year, with a total of 146 contributions and tabs for six views.](images/graph-screenshot.png)](https://yasinlatif22-cpu.github.io/contrib-gragh/)
+
+*The grid view, captured on Nov 12, 2026. Contribution counts measure activity, not research quality; the research is in the
+repositories linked from the page.*
 
 ## How it works
 - `scripts/fetch-github.mjs` reads the contribution calendar and writes `data/github.js`. It asks the GitHub GraphQL API first
